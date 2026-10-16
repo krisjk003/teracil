@@ -1,0 +1,95 @@
+# EuroSAT Class-Incremental Learning & FPGA Dynamic Function eXchange (DFX) Configuration
+
+dataset:
+  # Path to EuroSAT RGB images folder. Can be overridden via CLI (--data-dir) or env (EUROSAT_DATA_DIR)
+  data_dir: "data/EuroSAT"
+  img_size: 64
+  in_channels: 3
+  split_ratios:
+    train: 0.70
+    val: 0.15
+    test: 0.15
+  seed: 42
+  multi_seeds: [42, 45, 50]
+  manifest_dir: "results/manifests"
+
+  # Strict fixed class ordering preserved across all checkpoints and hardware modules
+  fixed_class_order:
+    - Forest
+    - Residential
+    - River
+    - Highway
+    - Industrial
+
+  # Staged category progression
+  stage_classes:
+    stage1:
+      - Forest
+      - Residential
+      - River
+    stage2:
+      - Forest
+      - Residential
+      - River
+      - Highway
+    stage3:
+      - Forest
+      - Residential
+      - River
+      - Highway
+      - Industrial
+
+training:
+  batch_size: 64
+  num_workers: 0  # 0 on Windows prevents multiprocessing issues
+  device: "auto"   # "auto", "cuda", or "cpu"
+
+  stage1:
+    epochs: 6
+    lr: 0.001
+    weight_decay: 0.0001
+    patience: 3
+
+  stage2:
+    epochs: 5
+    lr: 0.0003
+    weight_decay: 0.0001
+    patience: 3
+
+  stage3:
+    epochs: 5
+    lr: 0.0003
+    weight_decay: 0.0001
+    patience: 3
+
+  smoke_test:
+    enabled: false
+    max_samples_per_class: 100
+    epochs: 2
+
+replay:
+  capacity: 500
+  strategy: "class_balanced"
+
+model:
+  name: "EuroSatCompactCNN"
+  in_channels: 3
+  conv_channels: [16, 32, 64, 64]
+  feature_dim: 64
+  target_base_params: 60707
+
+export:
+  export_dir: "results/exported"
+  quant_method: "symmetric_int8"
+  feature_scale_bits: 8
+  weight_scale_bits: 8
+
+hardware:
+  target_part: "xc7z020clg400-1"
+  target_clk_mhz: 100
+  feature_dim: 64
+  max_classes: 5
+  data_width: 8
+  accum_width: 32
+  inactive_score: -2147483648  # 32-bit signed minimum: 0x80000000
+  vivado_path: "D:/vivado/2026.1/Vivado/bin/vivado.bat"

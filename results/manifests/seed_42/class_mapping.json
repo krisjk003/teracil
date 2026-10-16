@@ -1,0 +1,7 @@
+{
+  "Forest": 0,
+  "Residential": 1,
+  "River": 2,
+  "Highway": 3,
+  "Industrial": 4
+}

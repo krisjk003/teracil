@@ -1,0 +1,2 @@
+Seed,Stage 1 Acc (3 cls),S2 Replay Top-1 (4 cls),S2 Naive Top-1,S2 Joint Top-1,S2 Replay Forgetting,S2 Naive Forgetting,S3 Replay Top-1 (5 cls),S3 Naive Top-1,S3 Joint Top-1,S3 Replay Forgetting,S3 Naive Forgetting
+42,96.71%,72.06%,86.06%,84.18%,33.50%,4.16%,76.49%,87.90%,84.94%,25.69%,3.00%

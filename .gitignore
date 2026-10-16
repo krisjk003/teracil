@@ -1,0 +1,121 @@
+# ==============================================================================
+# EuroSAT CIL & FPGA Dynamic Reconfiguration - Project .gitignore
+# ==============================================================================
+
+# --- Always preserve .gitkeep files across all folders ---
+!.gitkeep
+
+# --- Python & Bytecode ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# --- Virtual Environments ---
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# --- Testing & Code Quality ---
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+.cache/
+
+# --- Large Datasets & Raw Images ---
+# Exclude raw dataset images in data/ to prevent committing gigabytes into Git history,
+# while preserving the directory hierarchy via .gitkeep
+data/**/*.jpg
+data/**/*.jpeg
+data/**/*.png
+data/**/*.tif
+data/**/*.tiff
+data/**/*.zip
+data/**/*.tar*
+data/**/*.gz
+
+# --- Model Checkpoints & Large Binaries ---
+# Ignore large PyTorch weights and model checkpoints
+checkpoints/*.pt
+checkpoints/*.pth
+checkpoints/*.ckpt
+checkpoints/*.bin
+*.onnx
+*.engine
+
+# Keep checkpoint metadata and replay buffer state JSON files
+!checkpoints/*.json
+
+# --- Vivado / Xilinx EDA Synthesis & Simulation Artifacts ---
+.Xil/
+*.jou
+*.log
+*.pb
+*.wdb
+*.vcd
+*.dcp
+*.sdb
+*.psdb
+*.rlx
+*.str
+*.ltx
+xsim.dir/
+clockInfo.txt
+xelab.log
+xvlog.log
+xsim.log
+xsimkernel.log
+xsimcrash.log
+xsim.dbg
+xsim.mem
+xsim.reloc
+xsim.rtti
+xsim.svtype
+xsim.type
+xsim.version
+xsim.xdbg
+xsimk.exe
+xsimSettings.ini
+xsim_script.tcl
+results/sim_work/*
+!results/sim_work/.gitkeep
+
+# Generated bitstreams (large binary FPGA artifacts)
+hardware/bitstreams/*.bit
+hardware/bitstreams/*.bin
+*.bit
+*.bin
+
+# --- IDE, Editor, and OS Artifacts ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
