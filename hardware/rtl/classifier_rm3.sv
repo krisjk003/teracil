@@ -1,6 +1,7 @@
-// Reconfigurable Module Variant 3 (RM3): 3 Active Classes
-// Evaluates: Forest (0), Residential (1), River (2)
-// Inactive: Highway (3), Industrial (4)
+// Reconfigurable Module Variant 3 (RM3): 3 Active Classes (Stage 2)
+// Evaluates: Forest (0), River (1), Highway (2)
+// Inactive: Residential (3) clamped to -2^31
+
 
 `timescale 1ns / 1ps
 

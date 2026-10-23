@@ -39,7 +39,7 @@ class QuantizedClassifier:
         scale_w: float,
         scale_b: float,
         num_classes: int,
-        max_classes: int = 5,
+        max_classes: int = 4,
         inactive_score: int = -2147483648,
     ):
         self.weight_int8 = weight_int8.astype(np.int8)  # (num_classes, 64)
@@ -82,9 +82,10 @@ def quantize_model_head(
     model: nn.Module,
     dataloader: DataLoader,
     device: torch.device,
-    max_classes: int = 5,
+    max_classes: int = 4,
     inactive_score: int = -2147483648,
 ) -> Tuple[QuantizedClassifier, Dict]:
+
     """
     Calibrate feature scale on dataloader and quantize classification head.
     

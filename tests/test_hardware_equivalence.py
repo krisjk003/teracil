@@ -16,7 +16,7 @@ def rtl_simulated_hardware(
     weights_int8: np.ndarray,
     biases_int32: np.ndarray,
     num_active_classes: int,
-    max_classes: int = 5,
+    max_classes: int = 4,
     inactive_score: int = -2147483648,
 ):
     """
@@ -52,10 +52,10 @@ def rtl_simulated_hardware(
 
 
 def test_hardware_software_exact_bit_equivalence():
-    """Verify bit-exact match across RM3, RM4, and RM5."""
+    """Verify bit-exact match across RM2, RM3, and RM4."""
     rng = np.random.RandomState(42)
 
-    for num_classes, rm_name in [(3, "RM3"), (4, "RM4"), (5, "RM5")]:
+    for num_classes, rm_name in [(2, "RM2"), (3, "RM3"), (4, "RM4")]:
         # Generate random weights and biases
         weights_int8 = rng.randint(-128, 127, size=(num_classes, 64), dtype=np.int8)
         biases_int32 = rng.randint(-10000, 10000, size=(num_classes,), dtype=np.int32)
@@ -68,6 +68,7 @@ def test_hardware_software_exact_bit_equivalence():
             scale_w=0.01,
             scale_b=0.0001,
             num_classes=num_classes,
+            max_classes=4,
         )
 
         # Software Integer Scores
@@ -80,6 +81,7 @@ def test_hardware_software_exact_bit_equivalence():
             weights_int8=weights_int8,
             biases_int32=biases_int32,
             num_active_classes=num_classes,
+            max_classes=4,
         )
 
         # Assert Bit-Exact Match
@@ -96,5 +98,6 @@ def test_hardware_software_exact_bit_equivalence():
         )
 
         # Verify inactive suppression
-        for c in range(num_classes, 5):
+        for c in range(num_classes, 4):
             assert np.all(hw_scores[:, c] == -2147483648), f"Inactive channel {c} not suppressed in {rm_name}!"
+

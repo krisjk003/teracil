@@ -1,17 +1,15 @@
 {
   "stage": 2,
-  "num_classes": 4,
+  "num_classes": 3,
   "class_names": [
     "Forest",
-    "Residential",
     "River",
     "Highway"
   ],
   "class_to_idx": {
     "Forest": 0,
-    "Residential": 1,
-    "River": 2,
-    "Highway": 3
+    "River": 1,
+    "Highway": 2
   },
   "feature_dim": 64,
   "input_resolution": [
@@ -21,16 +19,16 @@
   ],
   "parameter_counts": {
     "backbone": 60512,
-    "classifier": 260,
-    "total": 60772,
-    "trainable": 60772
+    "classifier": 195,
+    "total": 60707,
+    "trainable": 60707
   },
   "size_kb": {
-    "fp32_kb": 237.39,
-    "int8_kb": 59.35,
-    "total_params": 60772
+    "fp32_kb": 237.14,
+    "int8_kb": 59.28,
+    "total_params": 60707
   },
-  "top1_accuracy": 0.7212121212121212,
-  "top2_accuracy": 0.8975757575757576,
-  "macro_f1": 0.6912278409774671
+  "top1_accuracy": 0.6741666666666667,
+  "top2_accuracy": 0.9783333333333334,
+  "macro_f1": 0.544
 }

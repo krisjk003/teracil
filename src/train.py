@@ -2,9 +2,8 @@
 Unified Command-Line Training Entrypoint for EuroSAT Class-Incremental CNN.
 
 Allows training any stage or method separately:
-- Stage 1: Base model (3 classes: Forest, Residential, River)
-- Stage 2: Incremental (+ Highway) with replay, naive, or joint training
-- Stage 3: Incremental (+ Industrial) with replay, naive, or joint training
+- Stage 1: Base model (2 classes: Forest, River)
+- Stage 2: Incremental (+ Highway, 3 classes total) with replay, naive, or joint training
 """
 
 import argparse
@@ -24,7 +23,7 @@ def main():
     parser = argparse.ArgumentParser(description="EuroSAT Class-Incremental Training CLI")
     parser.add_argument("--stage", type=int, choices=[1, 2, 3], default=1, help="Stage to train (1, 2, or 3)")
     parser.add_argument("--method", type=str, choices=["replay", "naive", "joint", "base"], default="replay",
-                        help="Training method (base for stage 1; replay, naive, or joint for stage 2 & 3)")
+                        help="Training method (base for stage 1; replay, naive, or joint for stages 2 and 3)")
     parser.add_argument("--config", type=str, default="config.yaml", help="Path to config.yaml")
     parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
     parser.add_argument("--epochs", type=int, default=None, help="Override epoch count")
@@ -48,7 +47,7 @@ def main():
         print(f"TRAINING ALL STAGES (1 -> 2 -> 3) [Seed {args.seed}, Method: {args.method}]")
         print("==================================================")
         # Stage 1
-        print("\n>>> Training Stage 1 Base Model...")
+        print("\n>>> Training Stage 1 Base Model (Forest, River)...")
         run_stage1_training(cfg, seed=args.seed, smoke_test=args.smoke_test, override_epochs=args.epochs)
 
         # Stage 2
@@ -60,7 +59,7 @@ def main():
             train_incremental_stage(stage=2, config=cfg, seed=args.seed, use_replay=use_replay, smoke_test=args.smoke_test, override_epochs=args.epochs)
 
         # Stage 3
-        print("\n>>> Training Stage 3 Incremental (+ Industrial)...")
+        print("\n>>> Training Stage 3 Incremental (+ Residential)...")
         if args.method == "joint":
             train_joint_reference(stage=3, config=cfg, seed=args.seed, smoke_test=args.smoke_test, override_epochs=args.epochs)
         else:
@@ -69,6 +68,7 @@ def main():
 
         print("\n[SUCCESS] All stages trained successfully! Checkpoints saved in checkpoints/")
         return
+
 
     # Single stage execution
     if args.stage == 1:

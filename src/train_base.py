@@ -1,9 +1,10 @@
 """
-Stage 1 — Base Model Training (3 Classes: Forest, Residential, River).
+Stage 1 — Base Model Training (2 Classes: Forest, River).
 
-Trains EuroSatCompactCNN from scratch using only training samples from the three initial classes.
+Trains EuroSatCompactCNN from scratch using only training samples from the two initial classes.
 Saves checkpoint, training history, and initializes the replay buffer.
 """
+
 
 import argparse
 import copy
@@ -22,7 +23,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 import yaml
 
-from src.dataset import generate_or_load_splits, get_stage_data
+from src.dataset import generate_or_load_splits, get_stage_class_mapping, get_stage_data
 from src.evaluate import evaluate_model
 from src.model import EuroSatCompactCNN
 from src.replay_buffer import ReplayBuffer
@@ -120,6 +121,7 @@ def run_stage1_training(
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     stage_classes: List[str] = config["dataset"]["stage_classes"]["stage1"]
+    stage_class_to_idx = get_stage_class_mapping(stage_classes)
     all_classes: List[str] = config["dataset"]["fixed_class_order"]
     data_dir = config["dataset"]["data_dir"]
     manifest_dir = config["dataset"]["manifest_dir"]
@@ -144,6 +146,7 @@ def run_stage1_training(
         val_df=val_df,
         test_df=test_df,
         class_to_idx=class_to_idx,
+        is_incremental=False,
         smoke_test=smoke_test,
         max_samples_per_class=max_samples,
     )
@@ -152,8 +155,9 @@ def run_stage1_training(
     val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False, num_workers=num_workers)
     test_loader = DataLoader(test_ds, batch_size=batch_size, shuffle=False, num_workers=num_workers)
 
-    # Build model (3 classes)
+    # Build model (2 classes)
     model = EuroSatCompactCNN(num_classes=len(stage_classes)).to(device)
+
     param_counts = model.get_parameter_counts()
     size_info = model.get_model_size()
 
@@ -238,7 +242,7 @@ def run_stage1_training(
         "seed": seed,
         "num_classes": len(stage_classes),
         "stage_classes": stage_classes,
-        "class_to_idx": {c: class_to_idx[c] for c in stage_classes},
+        "class_to_idx": stage_class_to_idx,
         "model_state_dict": model.state_dict(),
         "history": history,
         "test_metrics": test_metrics,

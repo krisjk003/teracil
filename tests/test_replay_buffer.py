@@ -13,40 +13,42 @@ def test_replay_buffer_capacity_and_balancing(tmp_path):
     capacity = 300
     buf = ReplayBuffer(capacity=capacity, seed=42)
 
-    # Stage 1: Add 3 classes with 1000 candidates each
-    cands_0 = [f"path_0_{i}.jpg" for i in range(1000)]
-    cands_1 = [f"path_1_{i}.jpg" for i in range(1000)]
-    cands_2 = [f"path_2_{i}.jpg" for i in range(1000)]
+    # Stage 1: Add 2 classes with 1000 candidates each (Forest: 0, River: 1)
+    cands_0 = [f"forest_{i}.jpg" for i in range(1000)]
+    cands_1 = [f"river_{i}.jpg" for i in range(1000)]
 
     buf.update_with_class(0, cands_0)
     buf.update_with_class(1, cands_1)
+
+    counts = buf.get_class_counts()
+    assert sum(counts.values()) == capacity
+    # 300 / 2 = 150 per class
+    assert counts[0] == 150
+    assert counts[1] == 150
+
+    # Stage 2: Add 3rd class (Highway: 2)
+    cands_2 = [f"highway_{i}.jpg" for i in range(1000)]
     buf.update_with_class(2, cands_2)
 
     counts = buf.get_class_counts()
     assert sum(counts.values()) == capacity
     # 300 / 3 = 100 per class
-    for c in (0, 1, 2):
-        assert counts[c] == 100
+    assert counts[0] == 100
+    assert counts[1] == 100
+    assert counts[2] == 100
 
-    # Stage 2: Add 4th class
-    cands_3 = [f"path_3_{i}.jpg" for i in range(1000)]
+    # Stage 3: Add 4th class (Residential: 3)
+    cands_3 = [f"residential_{i}.jpg" for i in range(1000)]
     buf.update_with_class(3, cands_3)
 
     counts = buf.get_class_counts()
     assert sum(counts.values()) == capacity
     # 300 / 4 = 75 per class
-    for c in (0, 1, 2, 3):
-        assert counts[c] == 75
+    assert counts[0] == 75
+    assert counts[1] == 75
+    assert counts[2] == 75
+    assert counts[3] == 75
 
-    # Stage 3: Add 5th class
-    cands_4 = [f"path_4_{i}.jpg" for i in range(1000)]
-    buf.update_with_class(4, cands_4)
-
-    counts = buf.get_class_counts()
-    assert sum(counts.values()) == capacity
-    # 300 / 5 = 60 per class
-    for c in (0, 1, 2, 3, 4):
-        assert counts[c] == 60
 
 
 def test_replay_buffer_serialization(tmp_path):

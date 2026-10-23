@@ -46,10 +46,16 @@ class EuroSATDataset(Dataset):
         return tensor_img, self.labels[idx], path
 
 
-def get_transforms(augment: bool = False) -> transforms.Compose:
+def get_stage_class_mapping(stage_classes: List[str]) -> Dict[str, int]:
+    """Map active class names to the contiguous output indices for a stage."""
+    return {class_name: index for index, class_name in enumerate(stage_classes)}
+
+
+def get_transforms(augment: bool = False, img_size: int = 64) -> transforms.Compose:
     """Return transformation pipeline. Augmentation is applied exclusively to training images."""
     if augment:
         return transforms.Compose([
+            transforms.Resize((img_size, img_size)),
             transforms.RandomHorizontalFlip(p=0.5),
             transforms.RandomVerticalFlip(p=0.5),
             transforms.RandomRotation(degrees=15),
@@ -58,6 +64,7 @@ def get_transforms(augment: bool = False) -> transforms.Compose:
         ])
     else:
         return transforms.Compose([
+            transforms.Resize((img_size, img_size)),
             transforms.ToTensor(),
             transforms.Normalize(mean=EUROSAT_MEAN, std=EUROSAT_STD),
         ])
@@ -113,13 +120,18 @@ def generate_or_load_splits(
     class_to_idx = {cls: idx for idx, cls in enumerate(target_classes)}
 
     if train_csv.exists() and val_csv.exists() and test_csv.exists() and class_map_json.exists():
-        train_df = pd.read_csv(train_csv)
-        val_df = pd.read_csv(val_csv)
-        test_df = pd.read_csv(test_csv)
-        with open(class_map_json, "r") as f:
-            saved_class_to_idx = json.load(f)
-        _verify_split_leakage(train_df, val_df, test_df)
-        return train_df, val_df, test_df, saved_class_to_idx
+        try:
+            with open(class_map_json, "r") as f:
+                saved_class_to_idx = json.load(f)
+            train_df = pd.read_csv(train_csv)
+            val_df = pd.read_csv(val_csv)
+            test_df = pd.read_csv(test_csv)
+            # Ensure saved class mapping matches target classes and files exist on this filesystem
+            if saved_class_to_idx == class_to_idx and len(train_df) > 0 and Path(train_df["filepath"].iloc[0]).exists():
+                _verify_split_leakage(train_df, val_df, test_df)
+                return train_df, val_df, test_df, saved_class_to_idx
+        except Exception:
+            pass  # Fall back to regenerating splits
 
     # Otherwise, generate splits reproducibly
     class_images = discover_dataset(data_dir, target_classes)
@@ -183,42 +195,48 @@ def get_stage_data(
     test_df: pd.DataFrame,
     class_to_idx: Dict[str, int],
     replay_records: Optional[List[Tuple[str, int]]] = None,
+    is_incremental: bool = False,
     smoke_test: bool = False,
     max_samples_per_class: int = 100,
 ) -> Tuple[EuroSATDataset, EuroSATDataset, EuroSATDataset]:
     """
     Construct Dataset instances for a specific learning stage.
     Filters train/val/test samples to only the classes known at this stage.
-    Appends replay samples from previous classes to the training set.
+    For incremental stages, trains on the newly introduced class plus optional replay exemplars.
     """
     # Filter validation and test sets strictly to current stage classes
+    stage_class_to_idx = get_stage_class_mapping(stage_classes)
+    idx_to_class = {index: class_name for class_name, index in class_to_idx.items()}
     val_subset = val_df[val_df["class_name"].isin(stage_classes)].copy()
     test_subset = test_df[test_df["class_name"].isin(stage_classes)].copy()
 
-    # Determine which class is newly introduced vs previously learned
-    if replay_records is not None and len(replay_records) > 0:
-        # Replay mode: train set includes new class samples + replay buffer samples
-        new_class = stage_classes[-1]
-        train_new = train_df[train_df["class_name"] == new_class].copy()
+    # Determine training sample population
+    if is_incremental:
+        # Incremental mode: train on stage classes absent from replay memory,
+        # plus the replay exemplars themselves.
+        replay_labels = {label for _, label in (replay_records or [])}
+        new_classes = [name for name in stage_classes if class_to_idx[name] not in replay_labels]
+        train_new = train_df[train_df["class_name"].isin(new_classes)].copy()
 
         train_paths = list(train_new["filepath"])
-        train_labels = [class_to_idx[c] for c in train_new["class_name"]]
+        train_labels = [stage_class_to_idx[c] for c in train_new["class_name"]]
 
-        # Append replay exemplars
-        for r_path, r_lbl in replay_records:
-            train_paths.append(r_path)
-            train_labels.append(r_lbl)
+        # Append replay exemplars if provided (experience replay)
+        if replay_records is not None and len(replay_records) > 0:
+            for r_path, r_lbl in replay_records:
+                train_paths.append(r_path)
+                train_labels.append(stage_class_to_idx[idx_to_class[r_lbl]])
     else:
-        # Base stage or joint training: use all train samples for current stage classes
+        # Base stage (Stage 1) or joint training: use all train samples for current stage classes
         train_subset = train_df[train_df["class_name"].isin(stage_classes)].copy()
         train_paths = list(train_subset["filepath"])
-        train_labels = [class_to_idx[c] for c in train_subset["class_name"]]
+        train_labels = [stage_class_to_idx[c] for c in train_subset["class_name"]]
 
     val_paths = list(val_subset["filepath"])
-    val_labels = [class_to_idx[c] for c in val_subset["class_name"]]
+    val_labels = [stage_class_to_idx[c] for c in val_subset["class_name"]]
 
     test_paths = list(test_subset["filepath"])
-    test_labels = [class_to_idx[c] for c in test_subset["class_name"]]
+    test_labels = [stage_class_to_idx[c] for c in test_subset["class_name"]]
 
     if smoke_test:
         # Subsample for fast verification
@@ -243,3 +261,4 @@ def get_stage_data(
     test_ds = EuroSATDataset(test_paths, test_labels, transform=get_transforms(augment=False))
 
     return train_ds, val_ds, test_ds
+

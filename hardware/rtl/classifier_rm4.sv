@@ -1,6 +1,6 @@
-// Reconfigurable Module Variant 4 (RM4): 4 Active Classes
-// Evaluates: Forest (0), Residential (1), River (2), Highway (3)
-// Inactive: Industrial (4)
+// Reconfigurable Module Variant 4 (RM4): 4 Active Classes (Stage 3)
+// Evaluates: Forest (0), River (1), Highway (2), Residential (3)
+// All 4 classes active across MAX_CLASSES = 4 interface
 
 `timescale 1ns / 1ps
 
@@ -24,7 +24,7 @@ module classifier_rm4 (
     input  logic signed [DATA_WIDTH-1:0]        cfg_wdata,
     input  logic signed [SCORE_WIDTH-1:0]       cfg_bdata,
 
-    // Fixed 5-Class Output Interface
+    // Standardized 4-Class Output Interface
     output logic                                score_valid,
     output logic signed [SCORE_WIDTH-1:0]       scores [0:MAX_CLASSES-1],
     output logic [MAX_CLASSES-1:0]              active_mask,

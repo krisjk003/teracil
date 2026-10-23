@@ -2,9 +2,9 @@
 Class-Incremental Learning Pipeline with Replay and Baselines.
 
 Implements:
-1. Replay-based Class-Incremental Learning (Stages 2 & 3).
-2. Naive Class Expansion (no replay, illustrating catastrophic forgetting).
-3. Joint-Training Reference (trained from scratch on all classes at each stage).
+1. Replay-based Class-Incremental Learning (Stage 2: + Highway).
+2. Naive Class Expansion (no replay, evaluating catastrophic forgetting).
+3. Joint-Training Reference (trained from scratch on all classes).
 """
 
 import argparse
@@ -22,7 +22,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 import yaml
 
-from src.dataset import generate_or_load_splits, get_stage_data
+from src.dataset import generate_or_load_splits, get_stage_class_mapping, get_stage_data
 from src.evaluate import evaluate_model
 from src.metrics import compute_catastrophic_forgetting
 from src.model import EuroSatCompactCNN
@@ -39,17 +39,17 @@ def train_incremental_stage(
     override_epochs: Optional[int] = None,
 ) -> Tuple[EuroSatCompactCNN, Dict, Optional[ReplayBuffer]]:
     """
-    Execute incremental learning for Stage 2 (4 classes) or Stage 3 (5 classes).
+    Execute incremental learning for Stage 2 (+ Highway, 3 classes total).
     
     Args:
-        stage: 2 or 3.
+        stage: Incremental stage index (2).
         config: Loaded config dictionary.
         seed: Random seed.
         use_replay: True for proposed replay-based CIL, False for Naive expansion baseline.
         smoke_test: True to run fast validation subset.
         override_epochs: Optional epoch override.
     """
-    assert stage in (2, 3), f"Incremental stage must be 2 or 3, got {stage}"
+    assert stage >= 2, f"Incremental stage must be >= 2, got {stage}"
 
     torch.manual_seed(seed)
     if torch.cuda.is_available():
@@ -65,8 +65,8 @@ def train_incremental_stage(
 
     stage_key = f"stage{stage}"
     stage_classes: List[str] = config["dataset"]["stage_classes"][stage_key]
+    stage_class_to_idx = get_stage_class_mapping(stage_classes)
     all_classes: List[str] = config["dataset"]["fixed_class_order"]
-    new_class_name = stage_classes[-1]
     prev_stage = stage - 1
 
     method_tag = "replay" if use_replay else "naive"
@@ -82,12 +82,17 @@ def train_incremental_stage(
     prev_data = torch.load(prev_ckpt_path, map_location=device)
     prev_classes: List[str] = prev_data["stage_classes"]
     prev_num_classes = len(prev_classes)
+    if stage_classes[:prev_num_classes] != prev_classes:
+        raise ValueError(f"Configured classes {stage_classes} do not preserve previous checkpoint order {prev_classes}")
+    new_class_names = stage_classes[prev_num_classes:]
+    if not new_class_names:
+        raise ValueError(f"Stage {stage} introduces no classes beyond Stage {prev_stage}")
 
     # Initialize model with previous class count and restore weights
     model = EuroSatCompactCNN(num_classes=prev_num_classes).to(device)
     model.load_state_dict(prev_data["model_state_dict"])
 
-    # Expand classification head (e.g. 3 -> 4 or 4 -> 5)
+    # Expand once to include every class introduced in this stage.
     model.expand_classifier(new_num_classes=len(stage_classes))
     model.to(device)
 
@@ -117,7 +122,7 @@ def train_incremental_stage(
     num_workers = config["training"]["num_workers"]
     max_samples = config["training"]["smoke_test"]["max_samples_per_class"] if smoke_test else None
 
-    # Construct Datasets
+    # Construct Datasets with is_incremental=True
     train_ds, val_ds, test_ds = get_stage_data(
         stage_classes=stage_classes,
         train_df=train_df,
@@ -125,9 +130,11 @@ def train_incremental_stage(
         test_df=test_df,
         class_to_idx=class_to_idx,
         replay_records=replay_records,
+        is_incremental=True,
         smoke_test=smoke_test,
         max_samples_per_class=max_samples,
     )
+
 
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=num_workers)
     val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False, num_workers=num_workers)
@@ -157,7 +164,7 @@ def train_incremental_stage(
         "val_acc": [],
     }
 
-    print(f"\n[Stage {stage} ({method_tag.upper()})] Introducing '{new_class_name}' | Total Active Classes: {len(stage_classes)}")
+    print(f"\n[Stage {stage} ({method_tag.upper()})] Introducing {new_class_names} | Total Active Classes: {len(stage_classes)}")
     print(f"Replay Exemplars Active: {len(replay_records)} | Epochs: {epochs} | LR: {lr}")
 
     for epoch in range(1, epochs + 1):
@@ -193,10 +200,11 @@ def train_incremental_stage(
     )
     print(f"[Stage {stage} Test ({method_tag.upper()})] Top-1 Acc: {test_metrics['top1_accuracy']*100:.2f}% | Top-2 Acc: {test_metrics['top2_accuracy']*100:.2f}% | Macro F1: {test_metrics['macro_f1']:.4f}")
 
-    # Update Replay Buffer with newly introduced class training samples ONLY
+    # Add training samples for every newly introduced class to replay memory.
     if use_replay and replay_buffer is not None:
-        new_cls_train_paths = list(train_df[train_df["class_name"] == new_class_name]["filepath"])
-        replay_buffer.update_with_class(class_label=class_to_idx[new_class_name], candidate_paths=new_cls_train_paths)
+        for new_class_name in new_class_names:
+            new_cls_train_paths = list(train_df[train_df["class_name"] == new_class_name]["filepath"])
+            replay_buffer.update_with_class(class_label=class_to_idx[new_class_name], candidate_paths=new_cls_train_paths)
         replay_save_path = ckpt_dir / f"stage{stage}_replay_seed{seed}.json"
         replay_buffer.save(str(replay_save_path))
 
@@ -208,7 +216,7 @@ def train_incremental_stage(
         "method": method_tag,
         "num_classes": len(stage_classes),
         "stage_classes": stage_classes,
-        "class_to_idx": {c: class_to_idx[c] for c in stage_classes},
+        "class_to_idx": stage_class_to_idx,
         "model_state_dict": model.state_dict(),
         "history": history,
         "test_metrics": test_metrics,
@@ -245,6 +253,7 @@ def train_joint_reference(
 
     stage_key = f"stage{stage}"
     stage_classes: List[str] = config["dataset"]["stage_classes"][stage_key]
+    stage_class_to_idx = get_stage_class_mapping(stage_classes)
     all_classes: List[str] = config["dataset"]["fixed_class_order"]
 
     data_dir = config["dataset"]["data_dir"]
@@ -269,9 +278,11 @@ def train_joint_reference(
         val_df=val_df,
         test_df=test_df,
         class_to_idx=class_to_idx,
+        is_incremental=False,
         smoke_test=smoke_test,
         max_samples_per_class=max_samples,
     )
+
 
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=num_workers)
     val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False, num_workers=num_workers)
@@ -341,7 +352,7 @@ def train_joint_reference(
         "method": "joint",
         "num_classes": len(stage_classes),
         "stage_classes": stage_classes,
-        "class_to_idx": {c: class_to_idx[c] for c in stage_classes},
+        "class_to_idx": stage_class_to_idx,
         "model_state_dict": model.state_dict(),
         "history": history,
         "test_metrics": test_metrics,

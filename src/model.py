@@ -2,7 +2,8 @@
 EuroSAT Compact CNN Architecture and Incremental Classifier Expansion.
 
 This module defines the compact custom CNN designed for EuroSAT RGB satellite image classification,
-matching exactly ~60,707 parameters for the initial 3-class model.
+matching exactly 60,642 parameters for the initial 2-class base model, and 60,707 parameters for
+the expanded 3-class model.
 The classification head supports dynamic expansion to accommodate newly introduced classes
 while preserving previously learned classifier weights and biases.
 """
@@ -25,12 +26,13 @@ class EuroSatCompactCNN(nn.Module):
       Global Average Pooling: AdaptiveAvgPool2d((1, 1))   [64]
       Linear Head: 64 -> num_classes
     """
-    def __init__(self, num_classes: int = 3, in_channels: int = 3, feature_dim: int = 64):
+    def __init__(self, num_classes: int = 2, in_channels: int = 3, feature_dim: int = 64):
         super().__init__()
         assert num_classes >= 1, "num_classes must be at least 1"
         self.num_classes = num_classes
         self.in_channels = in_channels
         self.feature_dim = feature_dim
+
 
         # Feature Extractor Backbone (exactly 60,512 parameters)
         self.conv1 = nn.Conv2d(in_channels, 16, kernel_size=3, padding=1)
@@ -94,8 +96,11 @@ class EuroSatCompactCNN(nn.Module):
         old_bias = self.classifier.bias.data.clone()
         old_classes = self.num_classes
 
-        # Instantiate expanded linear layer
-        new_classifier = nn.Linear(self.feature_dim, new_num_classes)
+        device = self.classifier.weight.device
+        dtype = self.classifier.weight.dtype
+
+        # Instantiate expanded linear layer on the same device and dtype
+        new_classifier = nn.Linear(self.feature_dim, new_num_classes, device=device, dtype=dtype)
 
         # Standard Kaiming uniform initialization for linear layer
         nn.init.kaiming_uniform_(new_classifier.weight, a=math.sqrt(5))
@@ -168,6 +173,7 @@ class EuroSatCompactCNN(nn.Module):
         assert logits.shape == (2, self.num_classes), f"Unexpected logits shape: {logits.shape}"
 
 
-def create_model(num_classes: int = 3) -> EuroSatCompactCNN:
+def create_model(num_classes: int = 2) -> EuroSatCompactCNN:
     """Helper factory function to create a new EuroSatCompactCNN."""
     return EuroSatCompactCNN(num_classes=num_classes)
+

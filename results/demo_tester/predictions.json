@@ -1,0 +1,1152 @@
+{
+  "schema_version": "1.0",
+  "model": {
+    "name": "EuroSatCompactCNN",
+    "stage": 1,
+    "checkpoint": "checkpoints/stage1_base_seed42.pt",
+    "class_mapping": {
+      "0": "Forest",
+      "1": "River"
+    }
+  },
+  "predictions": [
+    {
+      "prediction_id": "35b21d3d-6e0c-4ad9-b4b4-7ced6751c291",
+      "timestamp_utc": "2026-10-21T17:34:56.755725+00:00",
+      "image": {
+        "filename": "Forest_1000.jpg",
+        "path": "data/EuroSAT/Forest/Forest_1000.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "Forest",
+        "class_index": 0,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "Forest",
+        "class_index": 0,
+        "confidence": 0.9866783618927002,
+        "probabilities": {
+          "Forest": 0.9866783618927002,
+          "River": 0.01332172006368637
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 1
+      }
+    },
+    {
+      "prediction_id": "7320cd87-fde0-40cd-bf18-9cc5ff094e36",
+      "timestamp_utc": "2026-10-21T17:35:20.583029+00:00",
+      "image": {
+        "filename": "River_1000.jpg",
+        "path": "data/EuroSAT/River/River_1000.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "cli"
+      },
+      "prediction": {
+        "class_name": "Forest",
+        "class_index": 0,
+        "confidence": 0.9821500182151794,
+        "probabilities": {
+          "Forest": 0.9821500182151794,
+          "River": 0.017850017175078392
+        }
+      },
+      "evaluation": {
+        "is_correct": false
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 1
+      }
+    },
+    {
+      "prediction_id": "a449dabd-555d-4b4a-b749-08eeb87cb12f",
+      "timestamp_utc": "2026-10-21T17:35:31.386289+00:00",
+      "image": {
+        "filename": "River_1.jpg",
+        "path": "data/EuroSAT/River/River_1.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 0.9999997615814209,
+        "probabilities": {
+          "Forest": 2.658272251210292e-07,
+          "River": 0.9999997615814209
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 1
+      }
+    },
+    {
+      "prediction_id": "5281b120-0b59-4153-9e94-1f376019ece7",
+      "timestamp_utc": "2026-10-21T17:35:51.189628+00:00",
+      "image": {
+        "filename": "Highway_1000.jpg",
+        "path": "data/EuroSAT/Highway/Highway_1000.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": null,
+        "class_index": null,
+        "source": null
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 0.9999992847442627,
+        "probabilities": {
+          "Forest": 7.727696242909587e-07,
+          "River": 0.9999992847442627
+        }
+      },
+      "evaluation": {
+        "is_correct": null
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 1
+      }
+    },
+    {
+      "prediction_id": "6ca18ed3-81de-4335-b96c-cbe8aedf4940",
+      "timestamp_utc": "2026-10-21T17:41:32.291304+00:00",
+      "image": {
+        "filename": "River_1982.jpg",
+        "path": "data/EuroSAT/River/River_1982.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "cli"
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 0.9999608993530273,
+        "probabilities": {
+          "Forest": 3.912781539838761e-05,
+          "River": 0.9999608993530273
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 1
+      }
+    },
+    {
+      "prediction_id": "25015671-608a-4257-a2aa-e668d8184d0e",
+      "timestamp_utc": "2026-10-21T17:43:15.290358+00:00",
+      "image": {
+        "filename": "River_2178.jpg",
+        "path": "data/EuroSAT/River/River_2178.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "cli"
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 0.999992847442627,
+        "probabilities": {
+          "Forest": 7.144564278860344e-06,
+          "River": 0.999992847442627
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 1
+      }
+    },
+    {
+      "prediction_id": "f2bf1306-9ef8-47c6-907e-82c8313392bb",
+      "timestamp_utc": "2026-10-21T17:44:15.190115+00:00",
+      "image": {
+        "filename": "River_1982.jpg",
+        "path": "data/EuroSAT/River/River_1982.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 0.9999608993530273,
+        "probabilities": {
+          "Forest": 3.912781539838761e-05,
+          "River": 0.9999608993530273
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 1
+      }
+    },
+    {
+      "prediction_id": "5b15cc4d-4a2c-4eff-809c-2cdabe11614f",
+      "timestamp_utc": "2026-10-21T17:44:37.999488+00:00",
+      "image": {
+        "filename": "River_2178.jpg",
+        "path": "data/EuroSAT/River/River_2178.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 0.999992847442627,
+        "probabilities": {
+          "Forest": 7.144564278860344e-06,
+          "River": 0.999992847442627
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 1
+      }
+    },
+    {
+      "prediction_id": "0e5f46ae-7939-4e55-8d7e-e31aa19d0bdb",
+      "timestamp_utc": "2026-10-21T17:47:00.436058+00:00",
+      "image": {
+        "filename": "River_2500.jpg",
+        "path": "data/EuroSAT/River/River_2500.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 0.9999746084213257,
+        "probabilities": {
+          "Forest": 2.5336512408102863e-05,
+          "River": 0.9999746084213257
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 1
+      }
+    },
+    {
+      "prediction_id": "1ddc6d27-145b-4e3f-aa07-0b0931b1af45",
+      "timestamp_utc": "2026-10-21T17:47:17.281854+00:00",
+      "image": {
+        "filename": "River_2501.jpg",
+        "path": "data/EuroSAT/River/River_2501.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 0.9999997615814209,
+        "probabilities": {
+          "Forest": 2.658272251210292e-07,
+          "River": 0.9999997615814209
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 1
+      }
+    },
+    {
+      "prediction_id": "733bc0d2-3d5b-4208-9b69-c5f79bd514e2",
+      "timestamp_utc": "2026-10-21T17:48:40.060211+00:00",
+      "image": {
+        "filename": "River_2501.jpg",
+        "path": "data/EuroSAT/River/River_2501.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 0.9999997615814209,
+        "probabilities": {
+          "Forest": 2.658272251210292e-07,
+          "River": 0.9999997615814209
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 1
+      }
+    },
+    {
+      "prediction_id": "e79ad92b-6c6e-4e50-8120-ee321aa59dd2",
+      "timestamp_utc": "2026-10-21T17:50:12.028333+00:00",
+      "image": {
+        "filename": "River_2502.jpg",
+        "path": "data/EuroSAT/River/River_2502.jpg",
+        "width": 703,
+        "height": 436
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 1.0,
+        "probabilities": {
+          "Forest": 3.013127941597915e-13,
+          "River": 1.0
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 1
+      }
+    },
+    {
+      "prediction_id": "e4a67bb2-9c44-4729-b4d9-3d0a71585171",
+      "timestamp_utc": "2026-10-21T18:15:16.100593+00:00",
+      "image": {
+        "filename": "Highway_1098.jpg",
+        "path": "data/EuroSAT/Highway/Highway_1098.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "confidence": 0.992264986038208,
+        "probabilities": {
+          "Forest": 5.771348026220591e-13,
+          "River": 0.00773507310077548,
+          "Highway": 0.992264986038208
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "1e9db462-65bb-4901-9f02-d8ae5f86eaa9",
+      "timestamp_utc": "2026-10-21T18:16:01.757353+00:00",
+      "image": {
+        "filename": "River_117.jpg",
+        "path": "data/EuroSAT/River/River_117.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 0.943145215511322,
+        "probabilities": {
+          "Forest": 0.0006167122628539801,
+          "River": 0.943145215511322,
+          "Highway": 0.0562380813062191
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "082c6c80-5a78-4956-a29e-5132d7438048",
+      "timestamp_utc": "2026-10-21T18:17:33.674847+00:00",
+      "image": {
+        "filename": "Forest_97.jpg",
+        "path": "data/EuroSAT/Forest/Forest_97.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "Forest",
+        "class_index": 0,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "Forest",
+        "class_index": 0,
+        "confidence": 0.9842017292976379,
+        "probabilities": {
+          "Forest": 0.9842017292976379,
+          "River": 0.01187487505376339,
+          "Highway": 0.0039234221912920475
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "b6d2423a-c51a-46ff-935f-65950b7a60a4",
+      "timestamp_utc": "2026-10-21T18:23:01.763234+00:00",
+      "image": {
+        "filename": "River_2501.jpg",
+        "path": "data/EuroSAT/River/River_2501.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 0.8240931630134583,
+        "probabilities": {
+          "Forest": 1.9063478475800366e-06,
+          "River": 0.8240931630134583,
+          "Highway": 0.17590497434139252
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "78919709-1af3-4dd8-a0c6-1a03d6eaaebf",
+      "timestamp_utc": "2026-10-21T18:23:26.733396+00:00",
+      "image": {
+        "filename": "River_2502.jpg",
+        "path": "data/EuroSAT/River/River_2502.jpg",
+        "width": 703,
+        "height": 436
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "confidence": 0.8698457479476929,
+        "probabilities": {
+          "Forest": 6.55929568438296e-08,
+          "River": 0.130154088139534,
+          "Highway": 0.8698457479476929
+        }
+      },
+      "evaluation": {
+        "is_correct": false
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "d7ffea3b-38c1-49a8-8d43-b0479493aa43",
+      "timestamp_utc": "2026-10-21T18:23:59.182071+00:00",
+      "image": {
+        "filename": "River_2502.jpg",
+        "path": "data/EuroSAT/River/River_2502.jpg",
+        "width": 703,
+        "height": 436
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "confidence": 0.8698457479476929,
+        "probabilities": {
+          "Forest": 6.55929568438296e-08,
+          "River": 0.130154088139534,
+          "Highway": 0.8698457479476929
+        }
+      },
+      "evaluation": {
+        "is_correct": false
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "44f817d8-c975-42cb-8f56-cac49d2fd04a",
+      "timestamp_utc": "2026-10-21T18:24:38.999743+00:00",
+      "image": {
+        "filename": "River_2502.jpg",
+        "path": "data/EuroSAT/River/River_2502.jpg",
+        "width": 703,
+        "height": 436
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "confidence": 0.8698457479476929,
+        "probabilities": {
+          "Forest": 6.55929568438296e-08,
+          "River": 0.130154088139534,
+          "Highway": 0.8698457479476929
+        }
+      },
+      "evaluation": {
+        "is_correct": false
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "a0b2e2e6-86ff-4ed2-90d6-0275dabee0f4",
+      "timestamp_utc": "2026-10-21T18:25:02.532930+00:00",
+      "image": {
+        "filename": "River_202.jpg",
+        "path": "data/EuroSAT/River/River_202.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 0.9956241250038147,
+        "probabilities": {
+          "Forest": 3.7010966735806505e-08,
+          "River": 0.9956241250038147,
+          "Highway": 0.004375904332846403
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "7fda1290-f706-4a76-b897-3ddb8a6a04d5",
+      "timestamp_utc": "2026-10-21T18:25:18.714152+00:00",
+      "image": {
+        "filename": "River_1202.jpg",
+        "path": "data/EuroSAT/River/River_1202.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 0.9840459823608398,
+        "probabilities": {
+          "Forest": 7.319225687751896e-07,
+          "River": 0.9840459823608398,
+          "Highway": 0.015953322872519493
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "d15d04ad-b934-4c27-a643-6c314cd87442",
+      "timestamp_utc": "2026-10-21T18:25:48.589319+00:00",
+      "image": {
+        "filename": "River_2502.jpg",
+        "path": "data/EuroSAT/River/River_2502.jpg",
+        "width": 703,
+        "height": 436
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "confidence": 0.8698457479476929,
+        "probabilities": {
+          "Forest": 6.55929568438296e-08,
+          "River": 0.130154088139534,
+          "Highway": 0.8698457479476929
+        }
+      },
+      "evaluation": {
+        "is_correct": false
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "e21e9348-a131-42ce-a15e-1ad95491f7d9",
+      "timestamp_utc": "2026-10-21T18:27:02.136096+00:00",
+      "image": {
+        "filename": "River_2503.jpg",
+        "path": "data/EuroSAT/River/River_2503.jpg",
+        "width": 480,
+        "height": 270
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "confidence": 0.9988704323768616,
+        "probabilities": {
+          "Forest": 9.449304403177927e-13,
+          "River": 0.001129541895352304,
+          "Highway": 0.9988704323768616
+        }
+      },
+      "evaluation": {
+        "is_correct": false
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "8aa1d417-195f-4627-a859-2dc56229c295",
+      "timestamp_utc": "2026-10-21T18:28:03.134884+00:00",
+      "image": {
+        "filename": "River_2504.jpg",
+        "path": "data/EuroSAT/River/River_2504.jpg",
+        "width": 719,
+        "height": 380
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "Forest",
+        "class_index": 0,
+        "confidence": 0.9808835983276367,
+        "probabilities": {
+          "Forest": 0.9808835983276367,
+          "River": 1.1882165173657255e-12,
+          "Highway": 0.019116418436169624
+        }
+      },
+      "evaluation": {
+        "is_correct": false
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "bb4bf0e1-170a-4b7c-a026-c9a06dfd594b",
+      "timestamp_utc": "2026-10-21T18:29:10.091415+00:00",
+      "image": {
+        "filename": "River_2505.jpg",
+        "path": "data/EuroSAT/River/River_2505.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 0.9963047504425049,
+        "probabilities": {
+          "Forest": 2.435149637491918e-09,
+          "River": 0.9963047504425049,
+          "Highway": 0.003695281920954585
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "63333815-0331-4e6d-be67-2b3b8038443e",
+      "timestamp_utc": "2026-10-21T18:29:52.282105+00:00",
+      "image": {
+        "filename": "River_2506.jpg",
+        "path": "data/EuroSAT/River/River_2506.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 0.9993539452552795,
+        "probabilities": {
+          "Forest": 1.134743683905981e-06,
+          "River": 0.9993539452552795,
+          "Highway": 0.0006448810454457998
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "b25c1022-930e-4584-be36-82a2c9cbedda",
+      "timestamp_utc": "2026-10-21T18:46:19.351340+00:00",
+      "image": {
+        "filename": "Residential_1.jpg",
+        "path": "data/EuroSAT/Residential/Residential_1.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "Residential",
+        "class_index": 3,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 0.5235534906387329,
+        "probabilities": {
+          "Forest": 2.121688993383941e-07,
+          "River": 0.5235534906387329,
+          "Highway": 0.45714735984802246,
+          "Residential": 0.01929892972111702
+        }
+      },
+      "evaluation": {
+        "is_correct": false
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 3,
+        "checkpoint": "checkpoints/stage3_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "bba98dc1-f601-49c9-9322-21b62ad4c7b6",
+      "timestamp_utc": "2026-10-22T12:05:04.782113+00:00",
+      "image": {
+        "filename": "Highway_2501.jpg",
+        "path": "data/EuroSAT/Highway/Highway_2501.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "confidence": 0.9999991655349731,
+        "probabilities": {
+          "Forest": 4.7047386264056044e-18,
+          "River": 8.407667451137968e-07,
+          "Highway": 0.9999991655349731
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "bd83b754-74e4-4d23-8a1d-8d38df59311d",
+      "timestamp_utc": "2026-10-22T12:17:08.213160+00:00",
+      "image": {
+        "filename": "Highway_2501.jpg",
+        "path": "data/EuroSAT/Highway/Highway_2501.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "confidence": 0.9999991655349731,
+        "probabilities": {
+          "Forest": 4.7047386264056044e-18,
+          "River": 8.407667451137968e-07,
+          "Highway": 0.9999991655349731
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "1a8d9148-ad27-4de3-8ee0-d15e735a0858",
+      "timestamp_utc": "2026-10-22T12:17:39.928523+00:00",
+      "image": {
+        "filename": "River_2500.jpg",
+        "path": "data/EuroSAT/River/River_2500.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 0.9986428618431091,
+        "probabilities": {
+          "Forest": 1.407868808200874e-06,
+          "River": 0.9986428618431091,
+          "Highway": 0.00135567516554147
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "c08a27ba-d7a7-4a98-afae-f121ffc5490b",
+      "timestamp_utc": "2026-10-22T12:18:30.670314+00:00",
+      "image": {
+        "filename": "Highway_60.jpg",
+        "path": "data/EuroSAT/Highway/Highway_60.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "confidence": 0.9967743754386902,
+        "probabilities": {
+          "Forest": 4.436539026778097e-14,
+          "River": 0.0032256687991321087,
+          "Highway": 0.9967743754386902
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "8526b54c-a190-4949-a55d-b4b669009685",
+      "timestamp_utc": "2026-10-22T12:18:37.757028+00:00",
+      "image": {
+        "filename": "Highway_2501.jpg",
+        "path": "data/EuroSAT/Highway/Highway_2501.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "confidence": 0.9999991655349731,
+        "probabilities": {
+          "Forest": 4.7047386264056044e-18,
+          "River": 8.407667451137968e-07,
+          "Highway": 0.9999991655349731
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 2,
+        "checkpoint": "checkpoints/stage2_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "3750c8be-6c65-4d4b-9b75-25d5ebc46d80",
+      "timestamp_utc": "2026-10-22T12:55:43.455083+00:00",
+      "image": {
+        "filename": "River_2506.jpg",
+        "path": "data/EuroSAT/River/River_2506.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "River",
+        "class_index": 1,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "River",
+        "class_index": 1,
+        "confidence": 0.9998131394386292,
+        "probabilities": {
+          "Forest": 7.811642717570066e-06,
+          "River": 0.9998131394386292,
+          "Highway": 0.0001595292560523376,
+          "Residential": 9.659654551796848e-07,
+          "Industrial": 1.8573548004496843e-05
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 3,
+        "checkpoint": "checkpoints/stage3_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "6d718122-5e4b-48cc-b9a7-a31e52c7e35a",
+      "timestamp_utc": "2026-10-22T12:58:18.444931+00:00",
+      "image": {
+        "filename": "Highway_2502.jpg",
+        "path": "data/EuroSAT/Highway/Highway_2502.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "confidence": 0.9995457530021667,
+        "probabilities": {
+          "Forest": 9.143671930722519e-11,
+          "River": 0.0004349537193775177,
+          "Highway": 0.9995457530021667,
+          "Residential": 2.566275725257583e-06,
+          "Industrial": 1.6643691196804866e-05
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 3,
+        "checkpoint": "checkpoints/stage3_replay_seed42.pt"
+      }
+    },
+    {
+      "prediction_id": "f8bcf661-7584-45fa-8852-87f9bebbbae6",
+      "timestamp_utc": "2026-10-22T17:39:27.853269+00:00",
+      "image": {
+        "filename": "Highway_2502.jpg",
+        "path": "data/EuroSAT/Highway/Highway_2502.jpg",
+        "width": 64,
+        "height": 64
+      },
+      "ground_truth": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "source": "directory"
+      },
+      "prediction": {
+        "class_name": "Highway",
+        "class_index": 2,
+        "confidence": 0.9991564750671387,
+        "probabilities": {
+          "Forest": 1.7424847342795147e-08,
+          "River": 0.0008212952525354922,
+          "Highway": 0.9991564750671387,
+          "Residential": 3.7364434319897555e-06,
+          "Industrial": 1.843774771259632e-05
+        }
+      },
+      "evaluation": {
+        "is_correct": true
+      },
+      "inference": {
+        "device": "cuda",
+        "model_stage": 3,
+        "checkpoint": "checkpoints/stage3_replay_seed42.pt"
+      }
+    }
+  ]
+}

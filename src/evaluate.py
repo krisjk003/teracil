@@ -119,7 +119,9 @@ def run_standalone_evaluation(
         val_df=val_df,
         test_df=test_df,
         class_to_idx=class_to_idx,
+        is_incremental=False,
     )
+
 
     target_ds = test_ds if split == "test" else val_ds
     loader = DataLoader(target_ds, batch_size=cfg["training"]["batch_size"], shuffle=False)

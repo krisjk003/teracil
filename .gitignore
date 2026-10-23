@@ -59,12 +59,7 @@ data/**/*.gz
 
 # --- Model Checkpoints & Large Binaries ---
 # Ignore large PyTorch weights and model checkpoints
-checkpoints/*.pt
-checkpoints/*.pth
-checkpoints/*.ckpt
-checkpoints/*.bin
-*.onnx
-*.engine
+
 
 # Keep checkpoint metadata and replay buffer state JSON files
 !checkpoints/*.json

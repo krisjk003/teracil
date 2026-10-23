@@ -11,7 +11,8 @@ file mkdir $WORK_DIR
 cd $WORK_DIR
 
 # Compile SystemVerilog files
-exec xvlog -sv "$RTL_DIR/classifier_rm_pkg.sv" "$RTL_DIR/classifier_core.sv" "$RTL_DIR/classifier_rm3.sv" "$RTL_DIR/classifier_rm4.sv" "$RTL_DIR/classifier_rm5.sv" "$TB_DIR/tb_classifier_rm.sv"
+exec xvlog -sv "$RTL_DIR/classifier_rm_pkg.sv" "$RTL_DIR/classifier_core.sv" "$RTL_DIR/classifier_rm2.sv" "$RTL_DIR/classifier_rm3.sv" "$RTL_DIR/classifier_rm4.sv" "$TB_DIR/tb_classifier_rm.sv"
+
 
 # Elaborate
 exec xelab tb_classifier_rm -s tb_classifier_rm_sim -debug typical
